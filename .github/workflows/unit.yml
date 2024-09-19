@@ -1,0 +1,31 @@
+name: unit-tests
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - main
+  push:
+    branches:
+      - main
+jobs:
+  unit:
+    strategy:
+      matrix:
+        jdk: ['17', '21']
+    name: Unit Tests on JDK${{ matrix.jdk }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'temurin'
+          architecture: x64
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Test
+        run: ./gradlew test
+      - name: Summarize tests results
+        uses: jeantessier/test-summary-action@v1
+        if: ${{ always() }}
