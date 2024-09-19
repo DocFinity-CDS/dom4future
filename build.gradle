@@ -10,7 +10,8 @@ base {
 }
 
 java {
-	sourceCompatibility = 1.8
+	sourceCompatibility = 17
+	targetCompatibility = 17
 }
 
 tasks.withType(JavaCompile) {
@@ -37,7 +38,7 @@ dependencies {
     )
 
     testImplementation(
-            'org.testng:testng:7.5.1',
+            'org.testng:testng:7.10.2',
 
             'xerces:xercesImpl:2.12.2',
             'xalan:xalan:2.7.3',
