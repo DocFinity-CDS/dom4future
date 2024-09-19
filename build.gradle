@@ -83,7 +83,7 @@ publishing {
                 licenses {
                     license {
                         name = 'Plexus'
-                        url = 'https://github.com/dom4future/dom4future/blob/master/LICENSE'
+                        url = 'https://github.com/DocFinity-CDS/dom4future/blob/master/LICENSE'
                     }
                 }
                 developers {
