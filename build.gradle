@@ -3,10 +3,10 @@ apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-group = 'org.dom4j'
+group = 'org.dom4future'
 
 base {
-	archivesName = 'dom4j'
+	archivesName = 'dom4future'
 }
 
 java {
@@ -78,13 +78,13 @@ publishing {
             }
 
             pom {
-                name = 'dom4j'
+                name = 'dom4future'
                 description = 'flexible XML framework for Java'
-                url = 'http://dom4j.github.io/'
+                url = 'http://dom4future.github.io/'
                 licenses {
                     license {
                         name = 'Plexus'
-                        url = 'https://github.com/dom4j/dom4j/blob/master/LICENSE'
+                        url = 'https://github.com/DocFinity-CDS/dom4future/blob/master/LICENSE'
                     }
                 }
                 developers {
@@ -95,9 +95,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git@github.com:dom4j/dom4j.git'
-                    developerConnection = 'scm:git:git@github.com:dom4j/dom4j.git'
-                    url = 'git@github.com:dom4j/dom4j.git'
+                    connection = 'scm:git:git@github.com:DocFinity-CDS/dom4future.git'
+                    developerConnection = 'scm:git:git@github.com:DocFinity-CDS/dom4future.git'
+                    url = 'git@github.com:DocFinity-CDS/dom4future.git'
                 }
 
                 withXml {
