@@ -1,24 +1,26 @@
-apply plugin: 'java-library'
-apply plugin: 'jacoco'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-group = 'org.dom4future'
-
-base {
-	archivesName = 'dom4future'
+plugins {
+    id 'java-library'
+    id 'jacoco'
+    id 'maven-publish'
 }
+
+group = 'io.github.docfinity-cds'
 
 java {
 	sourceCompatibility = 17
 	targetCompatibility = 17
+    base {
+        archivesName = 'dom4future'
+    }
+    withJavadocJar()
+    withSourcesJar()
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     options.encoding = 'UTF-8'
     options.charSet = options.encoding
 }
@@ -46,41 +48,16 @@ dependencies {
     )
 }
 
-sourceSets {
-    test {
-    	configurations.compileOnly.canBeResolved = true
-        compileClasspath += configurations.compileOnly
-        runtimeClasspath += configurations.compileOnly
-    }
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set('sources')
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier.set('javadoc')
-    from javadoc.destinationDir
-}
-
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
+            groupId = 'io.github.docfinity-cds'
+            artifactId = 'dom4future'
             from components.java
-
-            artifact sourcesJar {
-                archiveClassifier.set("sources")
-            }
-
-            artifact javadocJar {
-                archiveClassifier.set("javadoc")
-            }
-
             pom {
                 name = 'dom4future'
                 description = 'flexible XML framework for Java'
-                url = 'http://dom4future.github.io/'
+                url = 'https://github.com/DocFinity-CDS/dom4future'
                 licenses {
                     license {
                         name = 'Plexus'
@@ -89,15 +66,14 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = 'Filip Jirsák'
-                        email = 'filip@jirsak.org'
-                        url = 'https://github.com/FilipJirsak'
+                        name = 'Companion Data Services, LLC.'
+                        url = 'https://github.com/DocFinity-CDS/'
                     }
                 }
                 scm {
-                    connection = 'scm:git:git@github.com:DocFinity-CDS/dom4future.git'
-                    developerConnection = 'scm:git:git@github.com:DocFinity-CDS/dom4future.git'
-                    url = 'git@github.com:DocFinity-CDS/dom4future.git'
+                    connection = 'scm:git:https://github.com/DocFinity-CDS/dom4future.git'
+                    developerConnection = 'scm:git:ssh://github.com/DocFinity-CDS/dom4future.git'
+                    url = 'https://github.com/DocFinity-CDS/dom4future.git'
                 }
 
                 withXml {
@@ -105,6 +81,16 @@ publishing {
                         xmlDep.appendNode('optional').value = 'true'
                     }
                 }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "GithubPackages"
+            url = "https://maven.pkg.github.com/DocFinity-CDS/dom4future"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
@@ -127,31 +113,3 @@ jacocoTestReport {
 }
 
 check.dependsOn 'jacocoTestReport'
-
-if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
-    publishing {
-        repositories {
-            maven {
-                url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-                authentication {
-                    basic(BasicAuthentication)
-                }
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-
-//		mavenSnapshot{
-//		url "https://oss.sonatype.org/content/repositories/snapshots/"
-//			authentication(userName: ossrhUsername, password: ossrhPassword)
-//		}
-        }
-    }
-}
-
-if (project.hasProperty('signing.keyId')) {
-    signing {
-        sign publishing.publications.mavenJava
-    }
-}
