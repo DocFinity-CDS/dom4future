@@ -2,9 +2,11 @@ plugins {
     id 'java-library'
     id 'jacoco'
     id 'maven-publish'
+    id 'signing'
 }
 
 group = 'io.github.docfinity-cds'
+version = System.getenv("VERSION")?.trim()?.substring(1) ?: '3.0-SNAPSHOT'
 
 java {
 	sourceCompatibility = 17
@@ -48,10 +50,28 @@ dependencies {
     )
 }
 
+
+jar {
+    manifest {
+        attributes('Automatic-Module-Name': 'org.dom4j')
+    }
+}
+
+test {
+    useTestNG()
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+check.dependsOn 'jacocoTestReport'
+
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = 'io.github.docfinity-cds'
+        main(MavenPublication) {
             artifactId = 'dom4future'
             from components.java
             pom {
@@ -66,7 +86,8 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = 'Companion Data Services, LLC.'
+                        name = 'DocFinity-CDS'
+                        email = 'bmulhollem@docfinity.com'
                         url = 'https://github.com/DocFinity-CDS/'
                     }
                 }
@@ -86,30 +107,22 @@ publishing {
     }
     repositories {
         maven {
-            name = "GithubPackages"
-            url = "https://maven.pkg.github.com/DocFinity-CDS/dom4future"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
+            name = "ZIP"
+            url = layout.buildDirectory.dir('bundle')
         }
     }
 }
 
-jar {
-    manifest {
-      attributes('Automatic-Module-Name': 'org.dom4j')
-    }
+task mavenZip(type: Zip) {
+    dependsOn "publishMainPublicationToZIPRepository"
+    archiveFileName.set("dom4future-v${version}.zip")
+    destinationDirectory.set(layout.buildDirectory.dir('deliverables'))
+    from layout.buildDirectory.dir('bundle')
+    include "io/github/docfinity-cds/dom4future/${version}/*"
 }
 
-test {
-    useTestNG()
+signing {
+    required {true}
+    sign publishing.publications.main
+    useInMemoryPgpKeys(System.getenv('SIGNING_KEY'), System.getenv('SIGNING_PASSWORD'))
 }
-
-jacocoTestReport {
-    reports {
-        xml.required = true
-    }
-}
-
-check.dependsOn 'jacocoTestReport'
