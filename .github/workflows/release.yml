@@ -4,7 +4,7 @@ on:
     types: [published]
 jobs:
   publish:
-    name: Publish to Github Packages
+    name: Publish to Release
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,3 +28,5 @@ jobs:
         run: |
           cd ${{github.workspace}}/build/deliverables
           gh release upload ${{ github.event.release.tag_name }} dom4future-${{ github.event.release.tag_name }}.zip
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
