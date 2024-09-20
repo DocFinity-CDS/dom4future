@@ -7,7 +7,6 @@ plugins {
 
 group = 'io.github.docfinity-cds'
 version = System.getenv("VERSION")?.trim()?.substring(1) ?: '3.0-SNAPSHOT'
-ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
 
 java {
 	sourceCompatibility = 17
@@ -111,13 +110,6 @@ publishing {
             name = "ZIP"
             url = layout.buildDirectory.dir('bundle')
         }
-    }
-}
-
-task getVersion {
-    doFirst {
-        System.out.println(System.getenv("VERSION"))
-        System.out.println(version)
     }
 }
 
