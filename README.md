@@ -7,4 +7,4 @@ This is a mostly API-compatible fork of the [dom4j project](https://dom4j.github
 
 Downloading
 -----------
-Pre-built jars are available as part
+Pre-built jars are available via Github Packages. Better options are a work in progress.
