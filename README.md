@@ -3,16 +3,19 @@ dom4future
 This is a mostly API-compatible fork of the [dom4j project](https://dom4j.github.io/) with several important enhancements.
 
 * Minimum Java version is 17
-* The javax namespace has been replaced in favor of Jakarta
-
+* The javax dependency has been replaced in favor of Jakarta
 
 Releases
------------
+--------
+Published Jars can be found on [Maven Central](https://central.sonatype.com/artifact/io.github.docfinity-cds/dom4future/overview).
 All releases are available via [Github Releases](https://github.com/DocFinity-CDS/dom4future/releases/latest).  
 
+Documentation
+-------------
+The API documentation is available [here](https://www.javadoc.io/doc/io.github.docfinity-cds/dom4future/latest/index.html).
 
 Maven artifacts signature
------------
+-------------------------
 All artifacts in Maven repository are signed with following PGP key:
 
 ```
@@ -90,3 +93,34 @@ JDK17 is required to build. Ensure that you have JAVA_HOME set properly.
 * `./gradlew build`: Build the jar
 * `./gradlew test`: Run the tests
 * `./gradlew mavenZip`: Create a zip file that can be uploaded to Maven Central. VERSION, SIGNING_KEY, and SIGNING_PASSWORD envinroment variables must be provided.
+
+Project Scope
+-------------
+### In Scope
+* API compatibility with [dom4j](https://dom4j.github.io/)
+* Support for JDK 17+ versions
+* Jakarta
+* Security fixes
+* Dependency upgrades
+
+### Potentially In Scope
+* Non-disruptive bug fixes
+
+### Out of Scope
+* Unnecessary breaking changes
+* New features
+
+
+Contributing
+------------
+Any contributions that fall inside the Project Scope are welcome.
+Feel free to post issues, but issues without attached pull requests are likely to be ignored.
+The projects maintainers will do their best to review any received pull requests in a timely fashion, but please be patient.
+Pull requests outside the Project Scope will be closed without comment.
+
+Code of Conduct
+---------------
+Please be sure to behave professionally while interacting with this project. 
+The project maintainers do not have the time to actively moderate discussions in this repository. 
+If it becomes a problem, the project is likely to be archived.
+Don't be the reason that happens.
