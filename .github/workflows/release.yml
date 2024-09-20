@@ -1,7 +1,7 @@
 name: Release
 on:
   release:
-    types: [created]
+    types: [published]
 jobs:
   publish:
     name: Publish to Github Packages
@@ -18,8 +18,13 @@ jobs:
           distribution: 'temurin'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-
-      - name: Publish package
-        run: ./gradlew publish
+      - name: Create zip
+        run: ./gradlew mavenZip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ github.event.release.tag_name }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      - name: Upload zip
+        run: |
+          cd ${{github.workspace}}/build/deliverables
+          gh release upload ${{ github.event.release.tag_name }} dom4future-${{ github.event.release.tag_name }}.zip
