@@ -94,6 +94,11 @@ JDK17 is required to build. Ensure that you have JAVA_HOME set properly.
 * `./gradlew test`: Run the tests
 * `./gradlew mavenZip`: Create a zip file that can be uploaded to Maven Central. VERSION, SIGNING_KEY, and SIGNING_PASSWORD envinroment variables must be provided.
 
+### Releasing
+1. Create a GitHub Release via the UI.
+2. Wait for GitHub Actions to attach the signed maven zip
+3. Manually upload that zip to Maven Central
+
 Project Scope
 -------------
 ### In Scope
